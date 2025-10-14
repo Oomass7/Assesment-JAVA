@@ -12,9 +12,9 @@ public class Main {
         while (true) {
             UserDomain user = authView.show();
             if (user == null) {
-                break; // Salir de la app
+                break;
             }
-            mainView.show(user);
+            mainView.show(user); 
         }
     }
 }
