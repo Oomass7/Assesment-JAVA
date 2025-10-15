@@ -1,7 +1,8 @@
 package dao;
 
-import Domain.BookDomain;
 import java.util.List;
+
+import domain.BookDomain;
 
 public interface BookDao {
     boolean addBook(BookDomain book);
@@ -9,4 +10,6 @@ public interface BookDao {
     boolean deleteBook(int isbn);
     BookDomain getBook(int isbn);
     List<BookDomain> getAllBooks();
+    boolean decrementCopiesAvailable(int isbn);
+    boolean incrementCopiesAvailable(int isbn);
 }

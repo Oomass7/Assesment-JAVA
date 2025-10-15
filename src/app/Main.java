@@ -1,6 +1,6 @@
 package app;
 
-import Domain.UserDomain;
+import domain.UserDomain;
 import view.AuthView;
 import view.MainView;
 

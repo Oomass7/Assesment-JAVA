@@ -1,12 +1,14 @@
 package view;
 
-import Domain.LoanDomain;
 import service.LoanService;
 import exception.BadRequestException;
 import exception.ConflictException;
 import exception.NotFoundException;
 
 import javax.swing.*;
+
+import domain.LoanDomain;
+
 import java.util.List;
 
 public class LoansView {
@@ -15,13 +17,13 @@ public class LoansView {
     public void show() {
         while (true) {
             String menu = """
-                    GESTIÓN DE PRÉSTAMOS
-                    1. Crear Préstamo
-                    2. Devolver Préstamo
-                    3. Buscar Préstamo
-                    4. Listar Todos
-                    5. Volver
-                    Elige una opción:
+                    LOAN MANAGEMENT
+                    1. Create Loan
+                    2. Return Loan
+                    3. Search Loan
+                    4. List All
+                    5. Return
+                    Choose an option:
                     """;
             String input = JOptionPane.showInputDialog(menu);
             if (input == null) break; // Cancelar = salir
@@ -29,7 +31,7 @@ public class LoansView {
             try {
                 option = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Opción inválida.");
+                JOptionPane.showMessageDialog(null, "Invalid option.");
                 continue;
             }
             switch (option) {
@@ -38,23 +40,23 @@ public class LoansView {
                 case 3 -> buscarPrestamo();
                 case 4 -> listarPrestamos();
                 case 5 -> { return; }
-                default -> JOptionPane.showMessageDialog(null, "Opción inválida.");
+                default -> JOptionPane.showMessageDialog(null, "Invalid option.");
             }
         }
     }
 
     private void crearPrestamo() {
         try {
-            long idUser = Long.parseLong(JOptionPane.showInputDialog("ID del usuario:"));
-            int isbn = Integer.parseInt(JOptionPane.showInputDialog("ISBN del libro:"));
-            String fecha = JOptionPane.showInputDialog("Fecha de inicio (YYYY-MM-DD):");
+            long idUser = Long.parseLong(JOptionPane.showInputDialog("ID of the user:"));
+            int isbn = Integer.parseInt(JOptionPane.showInputDialog("ISBN of the book:"));
+            String fecha = JOptionPane.showInputDialog("Start date (YYYY-MM-DD):");
 
             LoanDomain loan = new LoanDomain();
             loan.setIdUser(idUser);
             loan.setIsbn(isbn);
             loan.setStartDate(java.sql.Date.valueOf(fecha));
             loanService.createLoan(loan);
-            JOptionPane.showMessageDialog(null, "Préstamo creado correctamente.");
+            JOptionPane.showMessageDialog(null, "Loan created successfully.");
         } catch (BadRequestException | ConflictException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception e) {
@@ -64,9 +66,9 @@ public class LoansView {
 
     private void devolverPrestamo() {
         try {
-            long idLoan = Long.parseLong(JOptionPane.showInputDialog("ID del préstamo a devolver:"));
+            long idLoan = Long.parseLong(JOptionPane.showInputDialog("ID of the loan to return:"));
             loanService.returnLoan(idLoan);
-            JOptionPane.showMessageDialog(null, "Préstamo devuelto correctamente.");
+            JOptionPane.showMessageDialog(null, "Loan returned successfully.");
         } catch (BadRequestException | NotFoundException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception e) {
@@ -76,14 +78,14 @@ public class LoansView {
 
     private void buscarPrestamo() {
         try {
-            long idLoan = Long.parseLong(JOptionPane.showInputDialog("ID del préstamo a buscar:"));
+            long idLoan = Long.parseLong(JOptionPane.showInputDialog("ID of the loan to search:"));
             LoanDomain loan = loanService.getLoan(idLoan);
             JOptionPane.showMessageDialog(null, "ID: " + loan.getIdLoan() +
-                    "\nUsuario: " + loan.getIdUser() +
+                    "\nUser ID: " + loan.getIdUser() +
                     "\nISBN: " + loan.getIsbn() +
-                    "\nFecha inicio: " + loan.getStartDate() +
-                    "\nFecha devolución: " + loan.getReturnDate() +
-                    "\nEstado: " + loan.getStatusLoan());
+                    "\nStart Date: " + loan.getStartDate() +
+                    "\nReturn Date: " + loan.getReturnDate() +
+                    "\nStatus: " + loan.getStatusLoan());
         } catch (BadRequestException | NotFoundException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception e) {
@@ -97,11 +99,11 @@ public class LoansView {
             StringBuilder sb = new StringBuilder();
             for (LoanDomain loan : loans) {
                 sb.append("ID: ").append(loan.getIdLoan())
-                  .append(", Usuario: ").append(loan.getIdUser())
+                  .append(", User ID: ").append(loan.getIdUser())
                   .append(", ISBN: ").append(loan.getIsbn())
-                  .append(", Inicio: ").append(loan.getStartDate())
-                  .append(", Devolución: ").append(loan.getReturnDate())
-                  .append(", Estado: ").append(loan.getStatusLoan())
+                  .append(", Start Date: ").append(loan.getStartDate())
+                  .append(", Return Date: ").append(loan.getReturnDate())
+                  .append(", Status: ").append(loan.getStatusLoan())
                   .append("\n");
             }
             JOptionPane.showMessageDialog(null, sb.toString());

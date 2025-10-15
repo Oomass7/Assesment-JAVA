@@ -8,6 +8,7 @@ CREATE TABLE books (
     category VARCHAR(255) NOT NULL,
     total_copies INT,
     copies_available INT,
+    stock INT,
     price_ref FLOAT
 );
 

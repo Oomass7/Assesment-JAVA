@@ -1,10 +1,9 @@
 package service;
 
-import Domain.LoanDomain;
 import dao.LoanDao;
 import dao.LoanDaoImpl;
+import domain.LoanDomain;
 import exception.BadRequestException;
-import exception.ConflictException;
 import exception.NotFoundException;
 
 import java.util.List;

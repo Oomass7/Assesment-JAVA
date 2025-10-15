@@ -1,0 +1,11 @@
+isbn,title,author,category,total_copies,copies_available,price_ref
+9780140449136,La Odisea,Homero,Clásico,10,7,45.5
+9788437604947,Don Quijote de la Mancha,Miguel de Cervantes,Novela,8,5,60.0
+9780307474278,1984,George Orwell,Ciencia ficción,12,9,50.0
+9780141439518,Orgullo y Prejuicio,Jane Austen,Romance,10,8,40.0
+9788497592208,Cien años de soledad,Gabriel García Márquez,Realismo mágico,15,10,55.0
+9789500397728,Rayuela,Julio Cortázar,Ficción,9,6,47.0
+9788420674179,El principito,Antoine de Saint-Exupéry,Infantil,20,18,35.0
+9788437602950,La casa de los espíritus,Isabel Allende,Drama,10,9,48.0
+9780307277671,Los juegos del hambre,Suzanne Collins,Aventura,14,11,52.0
+9780061120084,Matar a un ruiseñor,Harper Lee,Drama,13,12,49.0

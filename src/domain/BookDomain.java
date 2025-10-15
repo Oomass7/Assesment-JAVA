@@ -1,4 +1,4 @@
-package Domain;
+package domain;
 
 public class BookDomain {
     private int isbn;
@@ -11,7 +11,7 @@ public class BookDomain {
 
     public BookDomain() {}
 
-    public BookDomain(int isbn, String title, String author, String category, int totalCopies, int copiesAvailable, float priceRef) {
+    public BookDomain(int isbn, String title, String author, String category, int totalCopies, int copiesAvailable, float priceRef){
         this.isbn = isbn;
         this.title = title;
         this.author = author;

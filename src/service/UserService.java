@@ -1,8 +1,8 @@
 package service;
 
-import Domain.UserDomain;
 import dao.UserDao;
 import dao.UserDaoImpl;
+import domain.UserDomain;
 import exception.BadRequestException;
 import exception.ConflictException;
 import exception.NotFoundException;

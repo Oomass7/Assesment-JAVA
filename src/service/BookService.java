@@ -1,8 +1,8 @@
 package service;
 
-import Domain.BookDomain;
 import dao.BookDao;
 import dao.BookDaoImpl;
+import domain.BookDomain;
 import exception.BadRequestException;
 import exception.ConflictException;
 import exception.NotFoundException;
@@ -15,6 +15,13 @@ public class BookService {
     public boolean addBook(BookDomain book) {
         if (book == null || book.getIsbn() == 0 || book.getTitle() == null) {
             throw new BadRequestException("Datos del libro incompletos.");
+        }
+        // Validaciones de consistencia
+        if (book.getTotalCopies() < 0 || book.getCopiesAvailable() < 0 || book.getPriceRef() < 0) {
+            throw new BadRequestException("Los valores numéricos no pueden ser negativos.");
+        }
+        if (book.getCopiesAvailable() > book.getTotalCopies()) {
+            throw new BadRequestException("Las copias disponibles no pueden ser más que el total de copias.");
         }
         if (bookDao.getBook(book.getIsbn()) != null) {
             throw new ConflictException("El libro ya existe.");
@@ -29,6 +36,13 @@ public class BookService {
     public boolean updateBook(BookDomain book) {
         if (book == null || book.getIsbn() == 0) {
             throw new BadRequestException("ISBN requerido para actualizar.");
+        }
+        // Validaciones de consistencia
+        if (book.getTotalCopies() < 0 || book.getCopiesAvailable() < 0 || book.getPriceRef() < 0) {
+            throw new BadRequestException("Los valores numéricos no pueden ser negativos.");
+        }
+        if (book.getCopiesAvailable() > book.getTotalCopies()) {
+            throw new BadRequestException("Las copias disponibles no pueden ser más que el total de copias.");
         }
         if (bookDao.getBook(book.getIsbn()) == null) {
             throw new NotFoundException("Libro no encontrado.");
@@ -69,4 +83,5 @@ public class BookService {
         }
         return books;
     }
+    
 }

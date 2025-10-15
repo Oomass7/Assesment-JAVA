@@ -1,7 +1,8 @@
 package dao;
 
-import Domain.LoanDomain;
 import java.util.List;
+
+import domain.LoanDomain;
 
 public interface LoanDao {
     boolean createLoan(LoanDomain loan);

@@ -1,8 +1,8 @@
 package dao;
 
 
-import Domain.UserDomain;
-import config.Config;
+import config.DbConfig;
+import domain.UserDomain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,27 +11,27 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserDomain registerUser(UserDomain user) {
         String query = "INSERT INTO users (name_user, email, password_user, rol) VALUES (?, ?, ?, ?)";
-        try (Connection c = Config.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
+        try (Connection c = DbConfig.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
             ps.setString(1, user.getNameUser());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPasswordUser());
-            ps.setString(4, user.getRol());
+            ps.setString(2, user.getEmail() == null ? null : user.getEmail().trim());
+            ps.setString(3, user.getPasswordUser() == null ? null : user.getPasswordUser().trim());
+            ps.setString(4, user.getRol() == null ? null : user.getRol().trim());
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 return user;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     @Override
     public UserDomain loginUser(UserDomain user) {
-        String query = "SELECT * FROM users WHERE email = ? AND password_user = ?";
-        try (Connection c = Config.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPasswordUser());
+        String query = "SELECT * FROM users WHERE LOWER(TRIM(email)) = LOWER(?) AND TRIM(password_user) = TRIM(?)";
+        try (Connection c = DbConfig.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, user.getEmail() == null ? null : user.getEmail().trim());
+            ps.setString(2, user.getPasswordUser() == null ? null : user.getPasswordUser().trim());
             var rs = ps.executeQuery();
             if (rs.next()) {
                 UserDomain loggedUser = new UserDomain();
@@ -43,15 +43,16 @@ public class UserDaoImpl implements UserDao {
                 return loggedUser;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return null;
     }
+
     @Override
     public UserDomain findUser(String email) {
-        String query = "SELECT * FROM users WHERE email = ?";
-        try (Connection c = Config.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
-            ps.setString(1, email);
+        String query = "SELECT * FROM users WHERE TRIM(email) = ?";
+        try (Connection c = DbConfig.getConnection(); PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setString(1, email == null ? null : email.trim());
             var rs = ps.executeQuery();
             if (rs.next()) {
                 UserDomain foundUser = new UserDomain();
@@ -63,8 +64,9 @@ public class UserDaoImpl implements UserDao {
                 return foundUser;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return null;
     }
 }
+
